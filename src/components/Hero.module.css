@@ -1,0 +1,567 @@
+/* ─── 1. Permanent Full-Screen Deep Blue Landing Showcase ─── */
+.fullLanding {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3D3D3D;
+}
+
+/* Soft sky-blue depth */
+.ambientGlow { display: none; }
+
+.stage {
+  transform: scale(calc(1 - var(--p, 0) * 0.07));
+  opacity: calc(1 - var(--p, 0) * 0.85);
+  will-change: transform, opacity;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 92px clamp(16px, 2.4vw, 36px) 84px;
+  gap: 18px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  color: #ECECEC;
+  font-size: clamp(12px, 1.2vw, 16px);
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+.metaRow p { margin: 0; }
+.metaList { position: relative; padding-bottom: 14px; white-space: nowrap; }
+.metaList::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 38px; height: 2px;
+  background: #ECECEC;
+}
+.metaRight { white-space: nowrap; text-transform: uppercase; letter-spacing: 0.18em; font-size: clamp(10px, 1vw, 13px); opacity: 0.85; }
+/* Heading: ADVIO wordmark + tagline, centred in the landing */
+.heading {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(34px, 6vh, 64px);
+  font-weight: 400;
+}
+.wordmark {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  font-family: var(--display);
+  font-weight: 400;
+  /* sized so the five letters span the full width, capped by viewport height */
+  font-size: min(21.5vw, 62vh);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: #ECECEC;
+}
+@property --e {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+/* 3D extrude: face flips up, then the cream block extrudes into blue depth */
+.wordmark { perspective: 1600px; }
+.letter {
+  display: block;
+  --e: 0;
+  opacity: 0;
+  color: #ECECEC;
+  transform-origin: 50% 100%;
+  text-shadow:
+    calc(var(--e) * 0.8px) calc(var(--e) * 0.8px) 0 #1C1C1C,
+    calc(var(--e) * 1.7px) calc(var(--e) * 1.7px) 0 #1C1C1C,
+    calc(var(--e) * 2.5px) calc(var(--e) * 2.5px) 0 #1C1C1C,
+    calc(var(--e) * 3.4px) calc(var(--e) * 3.4px) 0 #1C1C1C,
+    calc(var(--e) * 4.2px) calc(var(--e) * 4.2px) 0 #1C1C1C,
+    calc(var(--e) * 5.1px) calc(var(--e) * 5.1px) 0 #1C1C1C,
+    calc(var(--e) * 6.0px) calc(var(--e) * 6.0px) 0 #1C1C1C,
+    calc(var(--e) * 6.8px) calc(var(--e) * 6.8px) 0 #1C1C1C,
+    calc(var(--e) * 7.6px) calc(var(--e) * 7.6px) 0 #1C1C1C,
+    calc(var(--e) * 8.5px) calc(var(--e) * 8.5px) 0 #1C1C1C,
+    calc(var(--e) * 9.3px) calc(var(--e) * 9.3px) 0 #1C1C1C,
+    calc(var(--e) * 10.2px) calc(var(--e) * 10.2px) 0 #1C1C1C,
+    calc(var(--e) * 11.0px) calc(var(--e) * 11.0px) 0 #1C1C1C,
+    calc(var(--e) * 11.9px) calc(var(--e) * 11.9px) 0 #1C1C1C,
+    calc(var(--e) * 12.8px) calc(var(--e) * 12.8px) 0 #1C1C1C,
+    calc(var(--e) * 13.6px) calc(var(--e) * 13.6px) 0 #1C1C1C,
+    calc(var(--e) * 14.4px) calc(var(--e) * 14.4px) 0 #1C1C1C,
+    calc(var(--e) * 15.3px) calc(var(--e) * 15.3px) 0 #1C1C1C,
+    calc(var(--e) * 16.1px) calc(var(--e) * 16.1px) 0 #1C1C1C,
+    calc(var(--e) * 17.0px) calc(var(--e) * 17.0px) 0 #1C1C1C,
+    calc(var(--e) * 17.8px) calc(var(--e) * 17.8px) 0 #1C1C1C,
+    calc(var(--e) * 18.7px) calc(var(--e) * 18.7px) 0 #1C1C1C,
+    calc(var(--e) * 19.6px) calc(var(--e) * 19.6px) 0 #1C1C1C,
+    calc(var(--e) * 20.4px) calc(var(--e) * 20.4px) 0 #1C1C1C,
+    calc(var(--e) * 21.2px) calc(var(--e) * 21.2px) 0 #1C1C1C,
+    calc(var(--e) * 22.1px) calc(var(--e) * 22.1px) 0 #1C1C1C;
+  animation: extrudeIn 1.7s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
+}
+@keyframes extrudeIn {
+  0%   { opacity: 0; --e: 0; transform: rotateX(-86deg) translateY(40px); }
+  38%  { opacity: 1; --e: 0; transform: rotateX(0deg) translateY(0); }
+  100% { opacity: 1; --e: 1; transform: none; }
+}
+.tagline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 28px);
+  font-family: var(--serif);
+  font-size: clamp(10px, 1.5vw, 24px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #ECECEC;
+  text-align: center;
+}
+.tagline::before,
+.tagline::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(236, 236, 236, 0.5);
+}
+.fadeLate {
+  opacity: 0;
+  animation: fadeUp 0.9s ease 1.3s forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+.srOnly {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter { animation: none; opacity: 1; --e: 1; transform: none; }
+  .fadeLate { animation: none; opacity: 1; transform: none; }
+}
+
+@media (max-width: 600px) {
+  .stage { padding: 84px 16px 74px; }
+  .metaRight { display: none; }
+}
+
+/* ─── Floating Scroll Prompt Pill ─── */
+.scrollPrompt {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  color: #FFFFFF;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s ease;
+  animation: promptFloat 2.6s infinite ease-in-out;
+}
+
+.scrollPrompt:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.promptDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ECECEC;
+  box-shadow: 0 0 8px rgba(236, 236, 236, 0.7);
+}
+
+.arrowIcon {
+  font-size: 14px;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.scrollPrompt:hover .arrowIcon {
+  transform: translateY(2px);
+}
+
+@keyframes promptFloat {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, 6px); }
+}
+
+/* ─── 2. Signature Overview Section ─── */
+.overviewSection {
+  z-index: 2;
+  border-radius: clamp(22px, 3.2vw, 44px) clamp(22px, 3.2vw, 44px) 0 0;
+  box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.4);
+  padding: 110px 0 70px;
+  background: var(--bg);
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Luxury Studio Badge */
+.eyebrowWrap {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  background: rgba(40, 40, 40, 0.04);
+  border: 1px solid rgba(40, 40, 40, 0.12);
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D4F53C;
+  box-shadow: 0 0 10px rgba(212, 245, 60, 0.7);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.15); }
+}
+
+.badgeText {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.availability {
+  color: var(--wine);
+  font-size: 11.5px;
+}
+
+/* Main Grid Row */
+.mainRow {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 56px;
+  align-items: flex-start;
+  margin-bottom: 64px;
+}
+
+/* Headline */
+.headline {
+  font-family: var(--display);
+  font-size: clamp(26px, 3.3vw, 54px);
+  font-weight: 400;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+/* Marker-highlight sweep (lime #D4F53C) */
+.mark {
+  background-color: transparent;
+  color: var(--ink);
+  background-image: linear-gradient(var(--lime), var(--lime));
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 0% 0.62em;
+  padding: 0 0.12em;
+  margin: 0 -0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.9s cubic-bezier(0.65, 0, 0.2, 1) var(--d, 0s);
+}
+.markOn .mark { background-size: 100% 0.62em; }
+@media (prefers-reduced-motion: reduce) {
+  .mark { background-size: 100% 0.62em; transition: none; }
+}
+
+/* Right Description Column */
+.descCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding-top: 8px;
+}
+
+.brandName {
+  color: var(--wine);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.lede {
+  font-family: var(--sans);
+  font-size: clamp(16px, 1.35vw, 19.5px);
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0;
+}
+
+.lede strong {
+  color: var(--ink);
+}
+
+.ctaRow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.linkText {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.linkText:hover {
+  color: var(--wine);
+}
+
+/* Value Pillar Badges */
+.pillarTags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+}
+
+.pillar {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.pillar:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+
+/* Tech Stack Ribbon */
+.techRibbon {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 18px 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin-bottom: 44px;
+}
+
+.techRibbonTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--wine);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.techTags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.techPill {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--surface2);
+  padding: 4px 11px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.techPill:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+  transform: translateY(-1px);
+}
+
+/* ─── Interactive Stat Cards Strip ─── */
+.statsStrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  padding: 44px 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 20px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-3px);
+  border-color: var(--wine);
+  box-shadow: 0 10px 28px rgba(40, 40, 40, 0.08);
+}
+
+.statTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.statNum {
+  font-family: var(--serif);
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--wine);
+  letter-spacing: -0.025em;
+}
+
+.statLabel {
+  font-size: 12.5px;
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.statSub {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ─── Responsive Breakpoints ─── */
+@media (max-width: 900px) {
+  .mainRow {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .statsStrip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .overviewSection {
+    padding: 70px 0 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .scrollPrompt {
+    bottom: 16px;
+    padding: 7px 16px;
+    font-size: 11px;
+  }
+
+  .statsStrip {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.linkText .scr { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ═══════════ Glass landing: photo background + transparent ADVIO letters ═══════════ */
+.glass {
+  background: #000 url('/advio%20landing%20page.jpg') center / cover no-repeat;
+}
+/* gentle darkening so the white letters stay readable over the bright glass pills */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+}
+.glass .ambientGlow { display: none; }
+
+/* transparent glass letters, same flip-up entrance */
+.glass .wordmark { filter: drop-shadow(0 8px 26px rgba(0, 0, 0, 0.55)); }
+.glass .letter {
+  color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.04) 78%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.95);
+  text-shadow: none;
+  animation: glassIn 1.7s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
+}
+@keyframes glassIn {
+  0%   { opacity: 0; transform: rotateX(-86deg) translateY(40px); }
+  60%  { opacity: 1; transform: rotateX(0deg) translateY(0); }
+  100% { opacity: 1; transform: none; }
+}
+.glass .tagline { color: #fff; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6); }
+.glass .tagline::before, .glass .tagline::after { background: rgba(255, 255, 255, 0.55); }
+.glass .metaList::after { background: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .glass .letter { animation: none; opacity: 1; transform: none; }
+}
