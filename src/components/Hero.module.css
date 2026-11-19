@@ -67,9 +67,9 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 0.05em;
+  gap: 0.1em;
   width: 100%;
-  font-family: var(--display);
+  font-family: var(--wordmark);
   font-weight: 400;
   /* sized so the five letters span the full width, capped by viewport height */
   font-size: min(14.5vw, 42vh);
@@ -541,14 +541,13 @@
 .glass .tagline { color: var(--ink); }
 .glass .tagline::before, .glass .tagline::after { background: rgba(28, 28, 28, 0.3); }
 
-/* transparent letters: dark outline, wave lines show through */
-.glass .wordmark { position: relative; z-index: 4; filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.1)); }
+/* solid black wordmark (Rostex style), same flip-up entrance */
+.glass .wordmark { filter: none; }
 .glass .letter {
-  color: transparent;
-  background: linear-gradient(180deg, rgba(28, 28, 28, 0.12) 0%, rgba(28, 28, 28, 0.02) 80%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 2px #1C1C1C;
+  color: #111111;
+  background: none;
+  /* Michroma is a regular weight: the stroke gives it the black, bold Rostex feel */
+  -webkit-text-stroke: 0.05em #111111;
   text-shadow: none;
   animation: glassIn 1.7s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
 }

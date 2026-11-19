@@ -12,6 +12,7 @@
   --tint: #E2E2E2;
   --cream: #ECECEC;
   --gold: #D4F53C;
+  --wordmark: 'Rostex', 'Michroma', 'Krona One', 'Arial Black', sans-serif;
   --display: 'Akira Expanded', 'Akira', 'Krona One', 'Arial Black', sans-serif;
   --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --serif: var(--display);
@@ -30,6 +31,16 @@
      /public/fonts/ and append: url('/fonts/Akira-Expanded.woff2') format('woff2') */
   src: local('Akira Expanded'), local('AkiraExpanded-SuperBold'), local('Akira');
   font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ─── Rostex (landing wordmark): licensed font, used automatically if installed.
+   To bundle it, add the licensed file to /public/fonts/ and append
+   url('/fonts/Rostex-Regular.otf') format('opentype') to the src below.
+   Until then the wordmark falls back to Michroma, thickened with a stroke (free, similar look). ─── */
+@font-face {
+  font-family: 'Rostex';
+  src: local('Rostex'), local('Rostex Regular'), local('Rostex-Regular');
   font-display: swap;
 }
 
