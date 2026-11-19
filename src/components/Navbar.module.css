@@ -16,22 +16,22 @@
 }
 
 .transparent .links a {
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--ink);
 }
 
 .transparent .links a:hover {
-  color: #FFFFFF;
-  background-color: rgba(255, 255, 255, 0.16);
+  color: var(--ink);
+  background-color: rgba(28, 28, 28, 0.07);
 }
 
 .ctaTransparent {
-  background: #ECECEC !important;
-  color: #3D3D3D !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  background: #1C1C1C !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
 }
 
 .ctaTransparent:hover {
-  background: #FFFFFF !important;
+  background: #3D3D3D !important;
   transform: translateY(-2px);
 }
 
@@ -90,7 +90,7 @@
   letter-spacing: 0.1em;
   line-height: 1;
   display: block;
-  color: #ECECEC;
+  color: var(--ink);
   transition: opacity 0.25s ease, transform 0.25s ease, color 0.25s ease;
 }
 .scrolled .logo { color: var(--wine); }
@@ -157,7 +157,7 @@
 }
 
 .hamburgerWhite span {
-  background: #FFFFFF;
+  background: var(--ink);
 }
 
 .bar1Open  { transform: translateY(7px) rotate(45deg); }

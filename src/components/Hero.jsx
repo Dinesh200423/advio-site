@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Scramble, SplitText, CountUp } from './fx';
-import { ArrowUpRight, ArrowDown, Lightning, Handshake, Package, LockKey } from '@phosphor-icons/react';
+import { ArrowUpRight, ArrowDown, Lightning, Handshake, Package, LockKey, Browser, ShoppingBag, GearSix, DeviceMobile, Tag } from '@phosphor-icons/react';
 import styles from './Hero.module.css';
 
 const TECH_STACK = [
@@ -19,6 +19,15 @@ const TECH_STACK = [
 ];
 
 const LETTERS = ['A', 'D', 'V', 'I', 'O'];
+
+// Services that orbit around the ADVIO wordmark
+const FLOATERS = [
+  { Icon: Browser,      title: 'Websites',          sub: 'Fast, SEO-ready sites' },
+  { Icon: ShoppingBag,  title: 'E-commerce',        sub: 'Stores that sell', accent: true },
+  { Icon: GearSix,      title: 'CRM & Automation',  sub: 'Leads on autopilot' },
+  { Icon: DeviceMobile, title: 'Web & Mobile Apps', sub: 'MVPs, shipped' },
+  { Icon: Tag,          title: 'Fixed pricing',     sub: 'From ₹12,000', hideSm: true },
+];
 
 export default function Hero() {
   const landRef = useRef(null);
@@ -40,6 +49,65 @@ export default function Hero() {
     return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
   }, []);
 
+  const wmRef = useRef(null);
+  const ringRef = useRef(null);
+
+  // Orbit: cards travel round an ellipse; lower half passes in front of ADVIO, upper half behind it
+  useEffect(() => {
+    const ring = ringRef.current;
+    const wm = wmRef.current;
+    if (!ring || !wm) return;
+    const cards = Array.from(ring.children);
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let raf = 0;
+    let angle = -Math.PI / 2 + 0.35;
+    let speed = still ? 0 : 0.16; // radians per second
+    let target = speed;
+    let last = performance.now();
+    const t0 = last;
+    const onEnter = () => { target = 0; };
+    const onLeave = () => { target = still ? 0 : 0.16; };
+    ring.addEventListener('mouseover', onEnter);
+    ring.addEventListener('mouseout', onLeave);
+
+    const frame = (now) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      speed += (target - speed) * Math.min(1, dt * 4);
+      angle += speed * dt;
+
+      const W = ring.offsetWidth;
+      const cx = wm.offsetLeft + wm.offsetWidth / 2;
+      const cy = wm.offsetTop + wm.offsetHeight / 2 - 34;
+      const vis = cards.filter((c) => c.offsetParent !== null);
+      const n = vis.length || 1;
+      const cw = vis[0] ? vis[0].offsetWidth : 200;
+      const rx = Math.min(wm.offsetWidth * 0.6 + 40, W / 2 - cw / 2 - 6);
+      const ry = Math.max(60, wm.offsetHeight * 0.72);
+      const intro = Math.min(1, Math.max(0, (now - t0 - 1200) / 900));
+
+      vis.forEach((c, i) => {
+        const th = angle + (i * 2 * Math.PI) / n;
+        const d = Math.sin(th);            // -1 back … +1 front
+        const x = cx + rx * Math.cos(th);
+        const y = cy + ry * d;
+        const sc = 0.86 + 0.16 * ((d + 1) / 2);
+        c.style.transform =
+          `translate(${x - cw / 2}px, ${y - c.offsetHeight / 2}px) perspective(900px) rotateY(${(-Math.cos(th) * 18).toFixed(1)}deg) rotateZ(${(Math.cos(th) * 4).toFixed(1)}deg) scale(${sc.toFixed(3)})`;
+        c.style.opacity = (intro * (0.5 + 0.5 * ((d + 1) / 2))).toFixed(3);
+        c.style.zIndex = d > 0 ? 8 : 1;
+        c.style.pointerEvents = intro > 0.6 ? 'auto' : 'none';
+      });
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(raf);
+      ring.removeEventListener('mouseover', onEnter);
+      ring.removeEventListener('mouseout', onLeave);
+    };
+  }, []);
+
   const scrollToContent = () => {
     document.getElementById('overview')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -58,9 +126,9 @@ export default function Hero() {
             <p className={styles.metaRight}>Chennai, India</p>
           </div>
 
-          <h1 className={styles.heading}>
-            <span className={styles.srOnly}>ADVIO — Digital experiences &amp; creative studio</span>
-            <span className={styles.wordmark} aria-hidden="true">
+          <div className={styles.heading}>
+            <h1 className={styles.srOnly}>ADVIO — Digital experiences &amp; creative studio</h1>
+            <span ref={wmRef} className={styles.wordmark} aria-hidden="true">
               {LETTERS.map((ch, i) => (
                 <span
                   key={ch}
@@ -71,10 +139,27 @@ export default function Hero() {
                 </span>
               ))}
             </span>
+            <div ref={ringRef} className={styles.floaters}>
+              {FLOATERS.map(({ Icon, title, sub, accent, hideSm }) => (
+                <a
+                  key={title}
+                  href="#services"
+                  className={`${styles.floater} ${hideSm ? styles.hideSm : ''}`}
+                >
+                  <span className={`${styles.floaterIcon} ${accent ? styles.floaterAccent : ''}`}>
+                    <Icon weight="bold" aria-hidden="true" />
+                  </span>
+                  <span className={styles.floaterText}>
+                    <strong>{title}</strong>
+                    <small>{sub}</small>
+                  </span>
+                </a>
+              ))}
+            </div>
             <span className={`${styles.tagline} ${styles.fadeLate}`} aria-hidden="true">
               Digital experiences &amp; creative studio
             </span>
-          </h1>
+          </div>
         </div>
 
         {/* Scroll indicator prompt */}

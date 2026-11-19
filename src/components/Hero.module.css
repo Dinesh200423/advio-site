@@ -61,16 +61,18 @@
   justify-content: center;
   gap: clamp(34px, 6vh, 64px);
   font-weight: 400;
+  position: relative;
 }
 .wordmark {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-end;
+  gap: 0.05em;
   width: 100%;
   font-family: var(--display);
   font-weight: 400;
   /* sized so the five letters span the full width, capped by viewport height */
-  font-size: min(21.5vw, 62vh);
+  font-size: min(14.5vw, 42vh);
   line-height: 0.8;
   letter-spacing: -0.02em;
   color: #ECECEC;
@@ -527,29 +529,26 @@
 
 .linkText .scr { text-decoration: underline; text-underline-offset: 4px; }
 
-/* ═══════════ Glass landing: photo background + transparent ADVIO letters ═══════════ */
+/* ═══════════ Light landing: wave background + transparent ADVIO + floating services ═══════════ */
 .glass {
-  background: #000 url('/advio%20landing%20page.jpg') center / cover no-repeat;
-}
-/* gentle darkening so the white letters stay readable over the bright glass pills */
-.glass::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.12) 45%, rgba(0, 0, 0, 0.4) 100%);
-  pointer-events: none;
+  background: #FAFAFA url('/new-bg%20image.jpg') center / cover no-repeat;
 }
 .glass .ambientGlow { display: none; }
 
-/* transparent glass letters, same flip-up entrance */
-.glass .wordmark { filter: drop-shadow(0 8px 26px rgba(0, 0, 0, 0.55)); }
+.glass .metaRow { color: var(--ink); }
+.glass .metaList::after { background: var(--ink); }
+.glass .metaRight { color: var(--muted); }
+.glass .tagline { color: var(--ink); }
+.glass .tagline::before, .glass .tagline::after { background: rgba(28, 28, 28, 0.3); }
+
+/* transparent letters: dark outline, wave lines show through */
+.glass .wordmark { position: relative; z-index: 4; filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.1)); }
 .glass .letter {
   color: transparent;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.34) 0%, rgba(255, 255, 255, 0.04) 78%);
+  background: linear-gradient(180deg, rgba(28, 28, 28, 0.12) 0%, rgba(28, 28, 28, 0.02) 80%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.95);
+  -webkit-text-stroke: 2px #1C1C1C;
   text-shadow: none;
   animation: glassIn 1.7s cubic-bezier(0.22, 0.8, 0.2, 1) forwards;
 }
@@ -558,9 +557,67 @@
   60%  { opacity: 1; transform: rotateX(0deg) translateY(0); }
   100% { opacity: 1; transform: none; }
 }
-.glass .tagline { color: #fff; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6); }
-.glass .tagline::before, .glass .tagline::after { background: rgba(255, 255, 255, 0.55); }
-.glass .metaList::after { background: #fff; }
+
+.glass .scrollPrompt {
+  background: rgba(28, 28, 28, 0.05);
+  border-color: rgba(28, 28, 28, 0.22);
+  color: var(--ink);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+.glass .scrollPrompt:hover { background: rgba(28, 28, 28, 0.1); border-color: rgba(28, 28, 28, 0.4); }
+.glass .promptDot { background: #D4F53C; box-shadow: 0 0 0 2px rgba(28, 28, 28, 0.7); }
+
+/* ── Floating service cards ── */
+.floaters { position: absolute; inset: 0; pointer-events: none; }
+.floater {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: clamp(158px, 15vw, 224px);
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.floater:hover { box-shadow: 0 24px 54px rgba(0, 0, 0, 0.2), inset 0 1px 0 #fff; }
+.floaterIcon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  background: #1C1C1C;
+  color: #fff;
+}
+.floaterAccent { background: #D4F53C; color: #1C1C1C; }
+.floaterText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.floaterText strong {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.floaterText small { font-family: var(--sans); font-size: 12px; color: var(--muted); line-height: 1.25; }
+
+@media (max-width: 760px) {
+  .floater { width: 138px; padding: 9px 10px; gap: 9px; }
+  .floaterIcon { width: 30px; height: 30px; font-size: 16px; border-radius: 9px; }
+  .floaterText small { display: none; }
+  .hideSm { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .glass .letter { animation: none; opacity: 1; transform: none; }
