@@ -231,7 +231,7 @@
   z-index: 2;
   border-radius: clamp(22px, 3.2vw, 44px) clamp(22px, 3.2vw, 44px) 0 0;
   box-shadow: 0 -28px 70px rgba(0, 0, 0, 0.4);
-  padding: 110px 0 70px;
+  padding: 110px 0 90px;
   background: var(--bg);
   position: relative;
   border-bottom: 1px solid var(--line);
@@ -597,8 +597,8 @@
   display: grid;
   place-items: center;
   font-size: 20px;
-  background: #1C1C1C;
-  color: #fff;
+  background: #D4F53C;
+  color: #1C1C1C;
 }
 .floaterAccent { background: #D4F53C; color: #1C1C1C; }
 .floaterText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -621,4 +621,15 @@
 
 @media (prefers-reduced-motion: reduce) {
   .glass .letter { animation: none; opacity: 1; transform: none; }
+}
+
+/* ── small screens: bigger wordmark, compact orbiting cards ── */
+@media (max-width: 760px) {
+  .wordmark { font-size: min(20.5vw, 34vh); }
+  .glass .stage { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 560px) {
+  .floater { width: 128px; padding: 8px 9px; gap: 8px; border-radius: 14px; }
+  .floaterIcon { width: 28px; height: 28px; font-size: 15px; border-radius: 8px; }
+  .floaterText strong { font-size: 9px; letter-spacing: 0.02em; }
 }

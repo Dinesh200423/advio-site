@@ -165,3 +165,22 @@ export function CountUp({ value, duration = 1700, className = '' }) {
     </span>
   );
 }
+
+/* ───────────── Scroll reveal for every .rv inside a container ───────────── */
+export function useReveal() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const els = ref.current?.querySelectorAll('.rv');
+    if (!els || !els.length) return;
+    if (reduced()) { els.forEach((el) => el.classList.add('in')); return; }
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }),
+      { threshold: 0.1 }
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+  return ref;
+}

@@ -26,9 +26,9 @@
 /* ─── Fonts: Akira Expanded (primary) — drop the licensed files in /public/fonts ─── */
 @font-face {
   font-family: 'Akira Expanded';
-  src: local('Akira Expanded'), local('AkiraExpanded-SuperBold'),
-       url('/fonts/Akira-Expanded.woff2') format('woff2'),
-       url('/fonts/Akira-Expanded.otf') format('opentype');
+  /* Uses Akira if installed. To bundle the licensed font, add the file to
+     /public/fonts/ and append: url('/fonts/Akira-Expanded.woff2') format('woff2') */
+  src: local('Akira Expanded'), local('AkiraExpanded-SuperBold'), local('Akira');
   font-weight: 100 900;
   font-display: swap;
 }
@@ -190,3 +190,9 @@ footer { position: relative; z-index: 2; background: var(--bg); }
 @media (prefers-reduced-motion: reduce) {
   .fx-rise .si, .fx-stagger .si { transform: none; opacity: 1; transition: none; }
 }
+
+/* ─── Shared page layout helpers ─── */
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.center-row { display: flex; justify-content: center; margin-top: 48px; }
+@media (max-width: 1024px) and (min-width: 700px) { .grid3 { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) { .grid3 { grid-template-columns: 1fr; } }

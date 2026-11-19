@@ -430,3 +430,48 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ─── New: card meta + extra mockups ─── */
+.metaTop { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.typeLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+}
+.typeLabel::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 1px var(--ink); }
+.actionLink {
+  align-self: flex-start;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+.actionLink:hover { color: var(--muted); }
+
+.bookUI { flex: 1; height: 100%; display: flex; flex-direction: column; gap: 10px; background: #F5F5F5; border-radius: 10px; padding: 14px; }
+.bookHead { display: flex; justify-content: space-between; align-items: center; color: #1C1C1C; font-size: 15px; }
+.bookBrand { font-family: var(--display); font-size: 11px; letter-spacing: 0.12em; }
+.bookGrid { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.slot, .slotOn, .slotTaken { border-radius: 6px; background: #E2E2E2; min-height: 14px; }
+.slotOn { background: #D4F53C; }
+.slotTaken { background: #BDBDBD; }
+.bookBtn { align-self: flex-start; background: #1C1C1C; color: #fff; font-size: 10px; letter-spacing: 0.06em; padding: 6px 12px; border-radius: 999px; }
+
+.flowUI { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; gap: 0; padding: 10px; background: #1E1E1E; border-radius: 10px; }
+.flowNode { display: flex; flex-direction: column; align-items: center; gap: 6px; background: #303030; color: #fff; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 12px 10px; font-size: 10px; min-width: 70px; text-align: center; }
+.flowNode svg { font-size: 20px; }
+.flowNodeOn { background: #D4F53C; color: #1C1C1C; border-color: #D4F53C; }
+.flowLine { flex: 0 0 22px; height: 2px; background: rgba(255,255,255,0.35); }
+
+@media (max-width: 1024px) and (min-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }

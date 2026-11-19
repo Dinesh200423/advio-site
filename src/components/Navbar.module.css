@@ -199,3 +199,21 @@
   .rightActions { display: none !important; }
   .hamburger { display: flex; }
 }
+
+/* active page marker (the one small lime accent in the nav) */
+.links a.active {
+  background-image: linear-gradient(#D4F53C, #D4F53C);
+  background-repeat: no-repeat;
+  background-position: 50% 78%;
+  background-size: calc(100% - 28px) 7px;
+}
+.mobileMenu a.active { background-image: linear-gradient(#D4F53C, #D4F53C); background-repeat: no-repeat; background-position: 0 88%; background-size: 56px 6px; }
+
+.mobileMenu a.mobileBtn {
+  display: inline-flex;
+  color: #FFFFFF;
+  border-bottom: 0;
+  padding: 14px 26px;
+  font-size: 15px;
+  background-image: none;
+}

@@ -1,32 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { Scramble, SplitText, CountUp } from './fx';
-import { ArrowUpRight, ArrowDown, Lightning, Handshake, Package, LockKey, Browser, ShoppingBag, GearSix, DeviceMobile, Tag } from '@phosphor-icons/react';
+import { Link } from 'react-router-dom';
+import { Scramble, SplitText } from './fx';
+import { ArrowUpRight, ArrowDown, Browser, ShoppingBag, GearSix, DeviceMobile, Lightning } from '@phosphor-icons/react';
 import styles from './Hero.module.css';
-
-const TECH_STACK = [
-  'React',
-  'Next.js',
-  'TypeScript',
-  'Node.js',
-  'PostgreSQL',
-  'Tailwind CSS',
-  'Supabase',
-  'Python',
-  'REST & GraphQL',
-  'Docker',
-  'AWS',
-  'Razorpay / Stripe',
-];
 
 const LETTERS = ['A', 'D', 'V', 'I', 'O'];
 
 // Services that orbit around the ADVIO wordmark
 const FLOATERS = [
-  { Icon: Browser,      title: 'Websites',          sub: 'Fast, SEO-ready sites' },
-  { Icon: ShoppingBag,  title: 'E-commerce',        sub: 'Stores that sell', accent: true },
-  { Icon: GearSix,      title: 'CRM & Automation',  sub: 'Leads on autopilot' },
-  { Icon: DeviceMobile, title: 'Web & Mobile Apps', sub: 'MVPs, shipped' },
-  { Icon: Tag,          title: 'Fixed pricing',     sub: 'From ₹12,000', hideSm: true },
+  { Icon: Browser,      title: 'Websites',         sub: 'Fast, responsive sites', to: '/services#websites' },
+  { Icon: ShoppingBag,  title: 'E-commerce',       sub: 'Online stores',          to: '/services#websites' },
+  { Icon: GearSix,      title: 'CRM & Dashboards', sub: 'Track leads and work',   to: '/services#software' },
+  { Icon: DeviceMobile, title: 'Web Applications', sub: 'Portals & SaaS MVPs',    to: '/services#software' },
+  { Icon: Lightning,    title: 'Automation',       sub: 'Workflows & WhatsApp',   to: '/services#automation', hideSm: true },
 ];
 
 export default function Hero() {
@@ -83,7 +69,7 @@ export default function Hero() {
       const n = vis.length || 1;
       const cw = vis[0] ? vis[0].offsetWidth : 200;
       const rx = Math.min(wm.offsetWidth * 0.6 + 40, W / 2 - cw / 2 - 6);
-      const ry = Math.max(60, wm.offsetHeight * 0.72);
+      const ry = Math.max(wm.offsetHeight * 0.72, W < 560 ? 120 : 60);
       const intro = Math.min(1, Math.max(0, (now - t0 - 1200) / 900));
 
       vis.forEach((c, i) => {
@@ -114,8 +100,8 @@ export default function Hero() {
 
   return (
     <>
-      {/* ── 1. Full-Screen Deep Blue Landing: blur-in ADVIO wordmark ── */}
-      <section ref={landRef} className={`${styles.fullLanding} ${styles.glass}`} id="top" aria-label="ADVIO — Digital Experiences & Creative Studio">
+      {/* ── 1. Landing: transparent ADVIO wordmark with orbiting services ── */}
+      <section ref={landRef} className={`${styles.fullLanding} ${styles.glass}`} id="top" aria-label="ADVIO — Founder-led web and software studio">
         <div className={styles.ambientGlow} />
 
         <div className={styles.stage}>
@@ -127,7 +113,7 @@ export default function Hero() {
           </div>
 
           <div className={styles.heading}>
-            <h1 className={styles.srOnly}>ADVIO — Digital experiences &amp; creative studio</h1>
+            <h1 className={styles.srOnly}>ADVIO — Founder-led web and software development studio</h1>
             <span ref={wmRef} className={styles.wordmark} aria-hidden="true">
               {LETTERS.map((ch, i) => (
                 <span
@@ -140,56 +126,51 @@ export default function Hero() {
               ))}
             </span>
             <div ref={ringRef} className={styles.floaters}>
-              {FLOATERS.map(({ Icon, title, sub, accent, hideSm }) => (
-                <a
+              {FLOATERS.map(({ Icon, title, sub, to, hideSm }) => (
+                <Link
                   key={title}
-                  href="#services"
+                  to={to}
                   className={`${styles.floater} ${hideSm ? styles.hideSm : ''}`}
                 >
-                  <span className={`${styles.floaterIcon} ${accent ? styles.floaterAccent : ''}`}>
+                  <span className={styles.floaterIcon}>
                     <Icon weight="bold" aria-hidden="true" />
                   </span>
                   <span className={styles.floaterText}>
                     <strong>{title}</strong>
                     <small>{sub}</small>
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
             <span className={`${styles.tagline} ${styles.fadeLate}`} aria-hidden="true">
-              Digital experiences &amp; creative studio
+              Founder-led web &amp; software studio
             </span>
           </div>
         </div>
 
-        {/* Scroll indicator prompt */}
         <button
           type="button"
           className={styles.scrollPrompt}
           onClick={scrollToContent}
-          aria-label="Scroll to overview section"
+          aria-label="Scroll to the introduction"
         >
           <span className={styles.promptDot} />
-          <span>Explore Developer Studio</span>
+          <span>Scroll to explore</span>
           <ArrowDown weight="bold" className={styles.arrowIcon} aria-hidden="true" />
         </button>
       </section>
 
-      {/* ── 2. Signature Overview Section (Freelance Web & Software Studio) ── */}
+      {/* ── 2. Hero message ── */}
       <section className={styles.overviewSection} id="overview">
         <div className="wrap">
-
-          {/* Freelance Studio Pill Badge */}
           <div className={styles.eyebrowWrap}>
             <span className={styles.eyebrow}>
               <span className={styles.statusDot} />
-              <span className={styles.badgeText}>Freelance Web &amp; Software Studio · Chennai</span>
-              <span className={styles.availability}>• Open for New Projects</span>
+              <span className={styles.badgeText}>Founder-led web &amp; software studio · Chennai, India</span>
             </span>
           </div>
 
           <div className={styles.mainRow}>
-            {/* Primary Headline with Brand Serif & Signature Curved Arc */}
             <div className={styles.titleCol}>
               <SplitText
                 as="h2"
@@ -199,90 +180,30 @@ export default function Hero() {
                 We build{' '}
                 <mark className={styles.mark} style={{ '--d': '0.5s' }}>websites</mark>,{' '}
                 <mark className={styles.mark} style={{ '--d': '1s' }}>software</mark>{' '}
-                &amp; systems that{' '}
-                <mark className={styles.mark} style={{ '--d': '1.5s' }}>grow</mark>{' '}
-                your business.
+                &amp;{' '}
+                <mark className={styles.mark} style={{ '--d': '1.5s' }}>automations</mark>{' '}
+                that move your business forward.
               </SplitText>
             </div>
 
-            {/* Description & Action Buttons */}
             <div className={styles.descCol}>
               <SplitText as="p" mode="stagger" className={styles.lede}>
-                One developer, one clear plan, one fixed price. I design, build and launch your{' '}
-                <strong>website</strong>, <strong>web app</strong> or <strong>automation</strong>.
-                You talk to the person writing the code, not an account manager, and you own
-                everything we ship.
+                ADVIO designs and develops business websites, custom web applications and practical
+                automations. From the first conversation to deployment, you work directly with the
+                developer building your solution.
               </SplitText>
 
               <div className={styles.ctaRow}>
-                <a href="#contact" className="btn">
-                  <Scramble>Start your project</Scramble>{' '}<ArrowUpRight weight="bold" className="ico" aria-hidden="true" />
-                </a>
-                <a href="#work" className="btn outline">
-                  View recent work
-                </a>
-                <a href="#pricing" className={styles.linkText}>
-                  Explore fixed pricing
-                </a>
-              </div>
-
-              {/* Freelance Value Pillars */}
-              <div className={styles.pillarTags}>
-                <span className={styles.pillar}><Lightning weight="bold" className="ico" aria-hidden="true" /> 1-3 Week Delivery</span>
-                <span className={styles.pillar}><Handshake weight="bold" className="ico" aria-hidden="true" /> Direct 1:1 Engineering</span>
-                <span className={styles.pillar}><Package weight="bold" className="ico" aria-hidden="true" /> 100% Code Ownership</span>
-                <span className={styles.pillar}><LockKey weight="bold" className="ico" aria-hidden="true" /> Fixed-Price Milestone Scope</span>
+                <Link to="/contact" className="btn">
+                  <Scramble>Start a Project</Scramble>{' '}
+                  <ArrowUpRight weight="bold" className="ico" aria-hidden="true" />
+                </Link>
+                <Link to="/work" className="btn outline">
+                  Explore Our Work
+                </Link>
               </div>
             </div>
           </div>
-
-          {/* ── Modern Tech Stack Ribbon ── */}
-          <div className={styles.techRibbon}>
-            <span className={styles.techRibbonTitle}>Core Tech Stack:</span>
-            <div className={styles.techTags}>
-              {TECH_STACK.map((tech) => (
-                <span key={tech} className={styles.techPill}>
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* ── Enhanced Interactive Stats Strip ── */}
-          <div className={styles.statsStrip}>
-            {[
-              {
-                num: '50+',
-                label: 'Products Delivered',
-                sub: 'Websites, SaaS dashboards & custom apps shipped',
-              },
-              {
-                num: '100%',
-                label: 'Direct Collaboration',
-                sub: 'Talk directly to the developer, zero middlemen',
-              },
-              {
-                num: '99+',
-                label: 'Performance Score',
-                sub: 'SEO-tuned, ultra-fast Lighthouse metrics',
-              },
-              {
-                num: '5/5',
-                label: 'Client Satisfaction',
-                sub: 'Proven track record of on-time delivery',
-              },
-            ].map((stat) => (
-              <div key={stat.label} className={styles.statCard}>
-                <div className={styles.statTop}>
-                  <span className={styles.statNum}><CountUp value={stat.num} /></span>
-                  <span className={styles.statGlow} />
-                </div>
-                <span className={styles.statLabel}>{stat.label}</span>
-                <span className={styles.statSub}>{stat.sub}</span>
-              </div>
-            ))}
-          </div>
-
         </div>
       </section>
     </>

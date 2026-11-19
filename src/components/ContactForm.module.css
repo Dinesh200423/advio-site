@@ -1,0 +1,57 @@
+.form { display: grid; gap: 22px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.field { display: grid; gap: 8px; }
+.field label { font-size: 14px; color: var(--ink); font-weight: 500; }
+.field label em { font-style: normal; color: var(--muted); font-weight: 400; }
+.field input, .field select, .field textarea {
+  width: 100%;
+  font: 400 16px var(--sans);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field textarea { resize: vertical; min-height: 140px; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(212, 245, 60, 0.55);
+}
+.field [aria-invalid='true'] { border-color: #C0392B; }
+.err { margin: 0; font-size: 13.5px; color: #B03022; }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form > :global(.btn) { justify-self: start; }
+.form > :global(.btn):disabled { opacity: 0.6; cursor: progress; }
+.privacy { margin: 0; font-size: 13px; color: var(--muted); max-width: 56ch; line-height: 1.6; }
+
+.error {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #FBEDEA;
+  border: 1px solid #E8B9B2;
+  color: #7A2A20;
+  font-size: 14.5px;
+}
+.error svg { flex: none; font-size: 22px; color: #B03022; margin-top: 1px; }
+.error p { margin: 0 0 4px; }
+.error a { text-decoration: underline; }
+
+.result {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.result svg { font-size: 40px; color: #1C1C1C; background: var(--lime); border-radius: 50%; }
+.result h3 { font-size: 20px; }
+.result p { margin: 0; color: var(--muted); max-width: 46ch; line-height: 1.6; }
+
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
