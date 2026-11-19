@@ -1,9 +1,4 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
-
+/* Project cards (Work page + Home preview) */
 .card {
   display: flex;
   flex-direction: column;
@@ -13,426 +8,35 @@
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
-
 .card:hover {
   transform: translateY(-6px);
-  border-color: var(--wine);
+  border-color: var(--ink);
   box-shadow: 0 16px 44px rgba(28, 28, 28, 0.1);
 }
 
-/* ─── Mockup Frame ─── */
-.mockupFrame {
-  position: relative;
-  aspect-ratio: 16 / 11;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  border-bottom: 1px solid var(--line);
-}
-
-.browserBar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(8px);
-  padding: 6px 12px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
-.trafficLights {
-  display: flex;
-  gap: 6px;
-}
-
-.tlRed, .tlYellow, .tlGreen {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.tlRed { background: #FF5F56; }
-.tlYellow { background: #FFBD2E; }
-.tlGreen { background: #27C93F; }
-
-.urlBar {
-  font-family: monospace;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(0, 0, 0, 0.2);
-  padding: 2px 10px;
-  border-radius: 4px;
-  flex: 1;
-}
-
-.uiCanvas {
-  flex: 1;
-  border-radius: 8px;
+.shot {
+  aspect-ratio: 1200 / 689;
+  background: var(--surface2);
   overflow: hidden;
-  position: relative;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
-
-/* ─── 1. Dashboard UI ─── */
-.dashUI {
-  height: 100%;
-  background: #1E1E1E;
-  display: flex;
-  color: #fff;
-}
-
-.dashSidebar {
-  width: 44px;
-  background: #303030;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.dashLogo {
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
-  background: var(--wine);
-  margin-bottom: 10px;
-}
-
-.dashNavItemActive {
+.shot img {
+  display: block;
   width: 100%;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.dashNavItem {
-  width: 100%;
-  height: 16px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.dashMain {
-  flex: 1;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.dashHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashTitleBar {
-  width: 60px;
-  height: 10px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.dashProfile {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.dashKpiRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.kpiBox {
-  background: #303030;
-  padding: 8px;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-}
-
-.kpiLabel {
-  font-size: 8.5px;
-  color: rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
-}
-
-.kpiValue {
-  font-size: 13px;
-  font-weight: 700;
-  color: #D4F53C;
-}
-
-.dashChart {
-  flex: 1;
-  background: #303030;
-  border-radius: 6px;
-  padding: 8px 10px 4px;
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-}
-
-.chartBar {
-  flex: 1;
-  background: linear-gradient(180deg, var(--wine), #5A5A5A);
-  border-radius: 2px 2px 0 0;
-}
-
-/* ─── 2. Website UI ─── */
-.webUI {
   height: 100%;
-  background: #F5F5F5;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+.card:hover .shot img { transform: scale(1.03); }
 
-.webNav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  padding-bottom: 6px;
-}
-
-.webBrand {
-  font-family: var(--serif);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--wine);
-  letter-spacing: 0.1em;
-}
-
-.webLinks {
-  display: flex;
-  gap: 6px;
-}
-
-.webLinks span {
-  width: 24px;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 2px;
-}
-
-.webHero {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.webHeading {
-  width: 75%;
-  height: 12px;
-  background: var(--ink);
-  border-radius: 3px;
-}
-
-.webSub {
-  width: 90%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-}
-
-.webBtn {
-  width: 48px;
-  height: 12px;
-  background: var(--wine);
-  border-radius: 999px;
-  margin-top: 2px;
-}
-
-.webGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  flex: 1;
-}
-
-.webImage1, .webImage2 {
-  background: linear-gradient(135deg, #DADADA, #BDBDBD);
-  border-radius: 6px;
-}
-
-/* ─── 3. E-commerce UI ─── */
-.ecomUI {
-  height: 100%;
-  background: #FFF;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.ecomHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #EEE;
-  padding-bottom: 6px;
-}
-
-.ecomLogo {
-  font-family: var(--serif);
-  font-size: 10px;
-  font-weight: bold;
-  color: #3D3D3D;
-}
-
-.ecomCart {
-  font-size: 9px;
-  background: #DEDEDE;
-  padding: 2px 6px;
-  border-radius: 4px;
-  color: #1C1C1C;
-}
-
-.ecomProductRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  flex: 1;
-}
-
-.ecomCard {
-  background: #ECECEC;
-  border: 1px solid #CFCFCF;
-  border-radius: 6px;
-  padding: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.ecomImg {
-  background: #D9D9D9;
-  height: 48px;
-  border-radius: 4px;
-}
-
-.ecomTitle {
-  font-size: 9px;
-  font-weight: 600;
-  color: #1C1C1C;
-}
-
-.ecomPrice {
-  font-size: 10px;
-  font-weight: 700;
-  color: #3D3D3D;
-}
-
-.ecomAlert {
-  background: #E8F5E9;
-  color: #2E7D32;
-  font-size: 8.5px;
-  padding: 4px 6px;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: 500;
-}
-
-/* ─── Meta Details ─── */
-.meta {
-  padding: 26px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  flex: 1;
-}
-
+.meta { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.metaTop { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .categoryBadge {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--wine);
-}
-
-.projectTitle {
-  font-family: var(--serif);
-  font-size: 21px;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.25;
-  margin: 0;
-}
-
-.projectDesc {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.55;
-  margin: 0;
-  flex: 1;
-}
-
-.tagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.tag {
-  font-size: 11.5px;
-  font-weight: 500;
-  color: var(--ink);
-  background: var(--surface2);
-  border: 1px solid var(--line);
-  padding: 2px 8px;
-  border-radius: 4px;
-}
-
-.metricRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  margin-top: 8px;
-}
-
-.metricVal {
-  display: block;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--wine);
-}
-
-.metricSub {
-  display: block;
-  font-size: 11.5px;
   color: var(--muted);
 }
-
-.inquireLink {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.inquireLink:hover {
-  color: var(--wine);
-}
-
-/* ─── Responsive ─── */
-@media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ─── New: card meta + extra mockups ─── */
-.metaTop { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .typeLabel {
   display: inline-flex;
   align-items: center;
@@ -447,6 +51,8 @@
   border-radius: 999px;
 }
 .typeLabel::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 0 1px var(--ink); }
+.projectTitle { font-family: var(--display); font-size: 21px; font-weight: 400; color: var(--ink); line-height: 1.25; margin: 0; }
+.projectDesc { font-size: 14.5px; color: var(--muted); line-height: 1.6; margin: 0; flex: 1; }
 .actionLink {
   align-self: flex-start;
   margin-top: 6px;
@@ -458,20 +64,3 @@
   transition: color 0.2s ease;
 }
 .actionLink:hover { color: var(--muted); }
-
-.bookUI { flex: 1; height: 100%; display: flex; flex-direction: column; gap: 10px; background: #F5F5F5; border-radius: 10px; padding: 14px; }
-.bookHead { display: flex; justify-content: space-between; align-items: center; color: #1C1C1C; font-size: 15px; }
-.bookBrand { font-family: var(--display); font-size: 11px; letter-spacing: 0.12em; }
-.bookGrid { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.slot, .slotOn, .slotTaken { border-radius: 6px; background: #E2E2E2; min-height: 14px; }
-.slotOn { background: #D4F53C; }
-.slotTaken { background: #BDBDBD; }
-.bookBtn { align-self: flex-start; background: #1C1C1C; color: #fff; font-size: 10px; letter-spacing: 0.06em; padding: 6px 12px; border-radius: 999px; }
-
-.flowUI { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; gap: 0; padding: 10px; background: #1E1E1E; border-radius: 10px; }
-.flowNode { display: flex; flex-direction: column; align-items: center; gap: 6px; background: #303030; color: #fff; border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; padding: 12px 10px; font-size: 10px; min-width: 70px; text-align: center; }
-.flowNode svg { font-size: 20px; }
-.flowNodeOn { background: #D4F53C; color: #1C1C1C; border-color: #D4F53C; }
-.flowLine { flex: 0 0 22px; height: 2px; background: rgba(255,255,255,0.35); }
-
-@media (max-width: 1024px) and (min-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
