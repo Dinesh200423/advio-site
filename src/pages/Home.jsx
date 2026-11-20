@@ -45,12 +45,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="sec">
-          <div className="wrap">
-            <SectionHead eyebrow="Why ADVIO" title="A more direct, simpler way to build." />
-            <WhyAdvio />
-          </div>
-        </section>
+        <WhyAdvio />
 
         <section className="sec">
           <div className="wrap">

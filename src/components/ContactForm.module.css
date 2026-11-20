@@ -1,3 +1,12 @@
+.card {
+  background: #fff;
+  border-radius: clamp(22px, 2.4vw, 30px);
+  padding: clamp(24px, 3.2vw, 44px);
+  box-shadow: 0 24px 60px rgba(28, 28, 28, 0.1), 0 0 0 1px rgba(28, 28, 28, 0.05);
+}
+.cardTitle { font-size: clamp(18px, 1.9vw, 26px); line-height: 1.2; }
+.cardSub { margin: 10px 0 clamp(22px, 2.6vw, 32px); color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+.req { color: #B03022; font-weight: 600; }
 .form { display: grid; gap: 22px; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 .field { display: grid; gap: 8px; }
@@ -22,9 +31,12 @@
 .field [aria-invalid='true'] { border-color: #C0392B; }
 .err { margin: 0; font-size: 13.5px; color: #B03022; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.form > :global(.btn) { justify-self: start; }
-.form > :global(.btn):disabled { opacity: 0.6; cursor: progress; }
-.privacy { margin: 0; font-size: 13px; color: var(--muted); max-width: 56ch; line-height: 1.6; }
+.actions :global(.btn) { flex: none; }
+.actions :global(.btn):disabled { opacity: 0.6; cursor: progress; }
+.actions { display: flex; align-items: center; gap: 22px; margin-top: 6px; flex-wrap: wrap; }
+.vr { flex: none; width: 1px; height: 38px; background: rgba(28, 28, 28, 0.16); }
+.privacy { margin: 0; display: flex; align-items: center; gap: 12px; flex: 1; min-width: 200px; font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+.privacy svg { flex: none; font-size: 26px; color: var(--ink); }
 
 .error {
   display: flex;
@@ -41,17 +53,9 @@
 .error p { margin: 0 0 4px; }
 .error a { text-decoration: underline; }
 
-.result {
-  display: grid;
-  gap: 14px;
-  justify-items: start;
-  padding: clamp(28px, 4vw, 48px);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
+.result { display: grid; gap: 14px; justify-items: start; }
 .result svg { font-size: 40px; color: #1C1C1C; background: var(--lime); border-radius: 50%; }
 .result h3 { font-size: 20px; }
 .result p { margin: 0; color: var(--muted); max-width: 46ch; line-height: 1.6; }
 
-@media (max-width: 640px) { .two { grid-template-columns: 1fr; } }
+@media (max-width: 640px) { .two { grid-template-columns: 1fr; } .vr { display: none; } .actions { gap: 14px; } }

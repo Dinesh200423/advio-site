@@ -69,13 +69,6 @@
 .serviceCard p { margin: 0; padding: 0 8px; font-size: 15px; line-height: 1.6; color: var(--muted); flex: 1; }
 .serviceLink { padding: 0 8px; font-size: 14px; font-weight: 600; display: inline-flex; gap: 8px; align-items: center; }
 
-/* ─── Why ADVIO ─── */
-.why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--ink); }
-.whyItem { padding: 26px 26px 10px 0; }
-.whyItem + .whyItem { padding-left: 26px; border-left: 1px solid var(--line); }
-.whyItem h3 { font-size: clamp(14px, 1.3vw, 17px); margin-bottom: 12px; }
-.whyItem p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
-
 /* ─── Process ─── */
 .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .step { position: relative; padding-top: 22px; border-top: 1px solid var(--line); }
@@ -86,14 +79,8 @@
 
 @media (max-width: 1024px) {
   .serviceGrid { grid-template-columns: 1fr; }
-  .why { grid-template-columns: repeat(2, 1fr); }
-  .whyItem:nth-child(3) { padding-left: 0; border-left: 0; }
-  .whyItem:nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: 16px; }
   .steps { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
 }
 @media (max-width: 600px) {
-  .why { grid-template-columns: 1fr; }
-  .whyItem, .whyItem + .whyItem { padding: 22px 0 6px; border-left: 0; }
-  .whyItem + .whyItem { border-top: 1px solid var(--line); }
   .steps { grid-template-columns: 1fr; }
 }

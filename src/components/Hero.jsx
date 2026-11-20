@@ -12,7 +12,7 @@ const FLOATERS = [
   { Icon: ShoppingBag,  title: 'E-commerce',       sub: 'Online stores',          to: '/services#websites' },
   { Icon: GearSix,      title: 'CRM & Dashboards', sub: 'Track leads and work',   to: '/services#software' },
   { Icon: DeviceMobile, title: 'Web Applications', sub: 'Portals & SaaS MVPs',    to: '/services#software' },
-  { Icon: Lightning,    title: 'Automation',       sub: 'Workflows & WhatsApp',   to: '/services#automation', hideSm: true },
+  { Icon: Lightning,    title: 'Automation',       sub: 'Workflows & WhatsApp',   to: '/services#automation' },
 ];
 
 export default function Hero() {
@@ -69,7 +69,7 @@ export default function Hero() {
       const n = vis.length || 1;
       const cw = vis[0] ? vis[0].offsetWidth : 200;
       const rx = Math.min(wm.offsetWidth * 0.6 + 40, W / 2 - cw / 2 - 6);
-      const ry = Math.max(wm.offsetHeight * 0.72, W < 560 ? 120 : 60);
+      const ry = Math.max(wm.offsetHeight * 0.72, W < 560 ? 150 : 60);
       const intro = Math.min(1, Math.max(0, (now - t0 - 1200) / 900));
 
       vis.forEach((c, i) => {

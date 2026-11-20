@@ -27,15 +27,9 @@
 .filter:hover { border-color: var(--ink); }
 .filterOn { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 
-.contactGrid { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: clamp(32px, 6vw, 90px); align-items: start; }
-.contactSide h3 { font-size: 15px; margin-bottom: 18px; }
-.contactSide ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--ink); }
-.contactSide li { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
-.contactSide li span { color: var(--muted); }
-.contactSide a { border-bottom: 1px solid currentColor; }
 
 @media (max-width: 900px) {
-  .serviceRow, .twoCol, .contactGrid { grid-template-columns: 1fr; }
+  .serviceRow, .twoCol { grid-template-columns: 1fr; }
   .caps { grid-template-columns: repeat(2, 1fr); }
   .principles li { grid-template-columns: 56px 1fr; }
 }

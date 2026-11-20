@@ -86,7 +86,14 @@ export function SplitText({
 }
 
 /* ───────────── Scramble / decode text (buttons) ───────────── */
-const GLYPHS = '!<>-_\\/[]{}=+*^?#ABCDEFGHJKLMNPQRSTUVWXYZ0123456789';
+// Calm decode: letters stay the same kind (a→b, A→B, 1→2), only change every ~90ms,
+// and resolve left to right with an eased pace. Width is locked so nothing jumps.
+const LOWER = 'abcdefghijklmnopqrstuvwxyz';
+const UPPER = LOWER.toUpperCase();
+const DIGITS = '0123456789';
+const pick = (set) => set[(Math.random() * set.length) | 0];
+const scrambleChar = (c) =>
+  /[a-z]/.test(c) ? pick(LOWER) : /[A-Z]/.test(c) ? pick(UPPER) : /[0-9]/.test(c) ? pick(DIGITS) : c;
 
 export function Scramble({ children, className = '' }) {
   const text = String(children);
@@ -101,21 +108,33 @@ export function Scramble({ children, className = '' }) {
     const el = ref.current;
     if (!el || reduced()) return;
     const host = el.closest('a,button') || el;
+    const chars = [...text];
+
+    const finish = () => {
+      el.textContent = text;
+      el.style.minWidth = '';
+    };
 
     const run = () => {
       cancelAnimationFrame(raf.current);
+      el.style.minWidth = `${el.getBoundingClientRect().width}px`;
       const start = performance.now();
-      const dur = 450 + text.length * 22;
+      const dur = 1100 + chars.length * 40;
+      const STEP = 90;
+      let last = -STEP;
+      let glyphs = chars.map(scrambleChar);
+
       const tick = (now) => {
-        const p = Math.min(1, (now - start) / dur);
-        const done = Math.floor(p * text.length);
-        let out = '';
-        for (let i = 0; i < text.length; i++) {
-          const c = text[i];
-          out += c === ' ' || i < done ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        const t = Math.min(1, (now - start) / dur);
+        const eased = t * t * (3 - 2 * t);
+        const done = Math.floor(eased * chars.length);
+        if (now - last >= STEP) {
+          last = now;
+          glyphs = chars.map(scrambleChar);
         }
-        el.textContent = p < 1 ? out : text;
-        if (p < 1) raf.current = requestAnimationFrame(tick);
+        el.textContent = chars.map((c, i) => (c === ' ' || i < done ? c : glyphs[i])).join('');
+        if (t < 1) raf.current = requestAnimationFrame(tick);
+        else finish();
       };
       raf.current = requestAnimationFrame(tick);
     };

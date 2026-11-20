@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ArrowUpRight, CheckCircle, WarningCircle } from '@phosphor-icons/react';
+import { ArrowUpRight, CheckCircle, WarningCircle, ShieldCheck } from '@phosphor-icons/react';
 import { SITE } from '../config';
 import styles from './ContactForm.module.css';
 
@@ -116,7 +116,7 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className={styles.result} role="status">
+      <div className={`${styles.card} ${styles.result}`} role="status">
         <CheckCircle weight="fill" aria-hidden="true" />
         <h3>Thank you.</h3>
         <p>{feedback}</p>
@@ -137,7 +137,8 @@ export default function ContactForm() {
   const field = (id, label, input, optional) => (
     <div className={styles.field}>
       <label htmlFor={`f-${id}`}>
-        {label}{optional && <em> (optional)</em>}
+        {label}
+        {optional ? <em> (optional)</em> : <b className={styles.req} aria-hidden="true"> *</b>}
       </label>
       {input}
       {errors[id] && <p id={`e-${id}`} className={styles.err}>{errors[id]}</p>}
@@ -146,6 +147,9 @@ export default function ContactForm() {
   const aria = (id) => ({ 'aria-invalid': errors[id] ? 'true' : undefined, 'aria-describedby': errors[id] ? `e-${id}` : undefined });
 
   return (
+    <div className={styles.card}>
+    <h2 className={styles.cardTitle}>Tell us about your project</h2>
+    <p className={styles.cardSub}>Share a few details about your requirements and we’ll get back to you.</p>
     <form className={styles.form} onSubmit={onSubmit} noValidate>
       {/* honeypot: hidden from people */}
       <div className={styles.hp} aria-hidden="true">
@@ -153,12 +157,12 @@ export default function ContactForm() {
       </div>
 
       <div className={styles.two}>
-        {field('name', 'Full name', <input id="f-name" name="name" autoComplete="name" value={values.name} onChange={set('name')} required {...aria('name')} />)}
-        {field('email', 'Email address', <input id="f-email" name="email" type="email" autoComplete="email" value={values.email} onChange={set('email')} required {...aria('email')} />)}
+        {field('name', 'Full name', <input id="f-name" name="name" placeholder="Enter your full name" autoComplete="name" value={values.name} onChange={set('name')} required {...aria('name')} />)}
+        {field('email', 'Email address', <input id="f-email" name="email" type="email" placeholder="Enter your email address" autoComplete="email" value={values.email} onChange={set('email')} required {...aria('email')} />)}
       </div>
 
       <div className={styles.two}>
-        {field('company', 'Company or business name', <input id="f-company" name="company" autoComplete="organization" value={values.company} onChange={set('company')} />, true)}
+        {field('company', 'Company or business name', <input id="f-company" name="company" placeholder="e.g. Your Company Pvt. Ltd." autoComplete="organization" value={values.company} onChange={set('company')} />, true)}
         {field('service', 'Service required',
           <select id="f-service" name="service" value={values.service} onChange={set('service')} required {...aria('service')}>
             <option value="">Choose a service</option>
@@ -173,8 +177,8 @@ export default function ContactForm() {
           {BUDGETS.map((b) => <option key={b}>{b}</option>)}
         </select>, true)}
 
-      {field('message', 'Project description',
-        <textarea id="f-message" name="message" rows="5" value={values.message} onChange={set('message')} required {...aria('message')} />)}
+      {field('message', 'Project overview',
+        <textarea id="f-message" name="message" rows="5" placeholder="Tell us about your project, goals, and any key requirements…" value={values.message} onChange={set('message')} required {...aria('message')} />)}
 
       {status === 'error' && (
         <div className={styles.error} role="alert">
@@ -190,14 +194,18 @@ export default function ContactForm() {
         </div>
       )}
 
-      <button type="submit" className="btn" disabled={status === 'sending'}>
-        {status === 'sending' ? 'Sending…' : 'Send Enquiry'}{' '}
-        <ArrowUpRight weight="bold" className="ico" aria-hidden="true" />
-      </button>
-
-      <p className={styles.privacy}>
-        The details you submit are used only to respond to your enquiry. We do not share them with third parties.
-      </p>
+      <div className={styles.actions}>
+        <button type="submit" className="btn" disabled={status === 'sending'}>
+          {status === 'sending' ? 'Sending…' : 'Send enquiry'}{' '}
+          <ArrowUpRight weight="bold" className="ico" aria-hidden="true" />
+        </button>
+        <span className={styles.vr} aria-hidden="true" />
+        <p className={styles.privacy}>
+          <ShieldCheck weight="regular" aria-hidden="true" />
+          <span>Your information is used only to respond to your enquiry.</span>
+        </p>
+      </div>
     </form>
+    </div>
   );
 }

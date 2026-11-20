@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import BackToTop from './components/BackToTop';
+import WhatsAppChat from './components/WhatsAppChat';
 import Home from './pages/Home';
 import About from './pages/About';
 import ServicesPage from './pages/ServicesPage';
@@ -56,6 +58,8 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
+      <BackToTop />
+      <WhatsAppChat />
     </>
   );
 }

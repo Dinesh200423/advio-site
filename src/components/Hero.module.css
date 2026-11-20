@@ -624,7 +624,7 @@
 
 /* ── small screens: bigger wordmark, compact orbiting cards ── */
 @media (max-width: 760px) {
-  .wordmark { font-size: min(20.5vw, 34vh); }
+  .wordmark { font-size: min(18.4vw, 34vh); }
   .glass .stage { padding-left: 16px; padding-right: 16px; }
 }
 @media (max-width: 560px) {
