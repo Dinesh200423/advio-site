@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowUpRight, CheckCircle, WarningCircle, ShieldCheck } from '@phosphor-icons/react';
+import { FaWhatsapp } from 'react-icons/fa6';
 import { SITE } from '../config';
 import styles from './ContactForm.module.css';
 
@@ -28,16 +29,24 @@ function validate(v) {
   return e;
 }
 
+const MAX_MESSAGE = 1200; // keeps the WhatsApp link comfortably under URL limits
+
 function summary(v) {
   return [
-    `Name: ${v.name}`,
-    `Email: ${v.email}`,
-    `Company: ${v.company || 'Not specified'}`,
-    `Service: ${v.service}`,
-    `Budget: ${v.budget || 'Not specified'}`,
+    `*Name:* ${v.name.trim()}`,
+    `*Email:* ${v.email.trim()}`,
+    `*Company:* ${v.company.trim() || 'Not specified'}`,
+    `*Service:* ${v.service}`,
+    `*Budget:* ${v.budget || 'Not specified'}`,
     '',
-    v.message,
+    '*Project overview:*',
+    v.message.trim().slice(0, MAX_MESSAGE),
   ].join('\n');
+}
+
+function whatsappLink(v) {
+  const text = `*New enquiry from the ADVIO website*\n\n${summary(v)}`;
+  return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
 /** Delivers the enquiry. Returns { ok, note } or throws. Uses whatever is configured in src/config.js. */
@@ -60,9 +69,13 @@ async function deliver(v) {
     return { note: 'Your enquiry has been sent.' };
   }
   if (SITE.whatsapp) {
-    const text = `Hello ADVIO, I would like to discuss a project.\n\n${summary(v)}`;
-    window.open(`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-    return { note: 'WhatsApp has opened with your enquiry. Please press send there to complete it.' };
+    const link = whatsappLink(v);
+    const win = window.open(link, '_blank'); // (not 'noopener': that makes open() return null even on success)
+    if (win) win.opener = null;
+    // window.open returns null when a popup blocker stops it; offer the link instead of pretending.
+    return win === null
+      ? { link, blocked: true, note: 'Your browser blocked WhatsApp from opening. Tap the button below to send your enquiry.' }
+      : { link, note: 'WhatsApp has opened with your enquiry. Tap Send there to deliver it to us.' };
   }
   if (SITE.email) {
     window.location.href =
@@ -82,6 +95,13 @@ export default function ContactForm() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // idle | sending | success | error
   const [feedback, setFeedback] = useState('');
+  const [waLink, setWaLink] = useState('');
+  const resultRef = useRef(null);
+
+  // The confirmation is shorter than the form, so bring it into view.
+  useEffect(() => {
+    if (status === 'success') resultRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }, [status]);
 
   const set = (k) => (e) => {
     setValues((v) => ({ ...v, [k]: e.target.value }));
@@ -101,8 +121,9 @@ export default function ContactForm() {
     if (values.website) { setStatus('success'); setFeedback('Thank you.'); return; } // bot trap
     setStatus('sending');
     try {
-      const { note } = await deliver(values);
+      const { note, link } = await deliver(values);
       setFeedback(note);
+      setWaLink(link || '');
       setStatus('success');
     } catch (err) {
       setStatus('error');
@@ -116,16 +137,27 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className={`${styles.card} ${styles.result}`} role="status">
+      <div ref={resultRef} className={`${styles.card} ${styles.result}`} role="status">
         <CheckCircle weight="fill" aria-hidden="true" />
-        <h3>Thank you.</h3>
+        <h3>{waLink ? 'One last step' : 'Thank you.'}</h3>
         <p>{feedback}</p>
+        {waLink && (
+          <>
+            <a className="btn" href={waLink} target="_blank" rel="noopener noreferrer">
+              Open WhatsApp <ArrowUpRight weight="bold" className="ico" aria-hidden="true" />
+            </a>
+            <p className={styles.waNote}>
+              Your enquiry is only delivered once you tap <b>Send</b> in WhatsApp.
+            </p>
+          </>
+        )}
         <button
           type="button"
           className="btn outline sm"
           onClick={() => {
             setStatus('idle');
             setValues((v) => ({ ...v, name: '', email: '', company: '', budget: '', message: '' }));
+            setWaLink('');
           }}
         >
           Send another enquiry
@@ -178,7 +210,7 @@ export default function ContactForm() {
         </select>, true)}
 
       {field('message', 'Project overview',
-        <textarea id="f-message" name="message" rows="5" placeholder="Tell us about your project, goals, and any key requirements…" value={values.message} onChange={set('message')} required {...aria('message')} />)}
+        <textarea id="f-message" name="message" rows="5" maxLength={MAX_MESSAGE} placeholder="Tell us about your project, goals, and any key requirements…" value={values.message} onChange={set('message')} required {...aria('message')} />)}
 
       {status === 'error' && (
         <div className={styles.error} role="alert">
@@ -205,6 +237,11 @@ export default function ContactForm() {
           <span>Your information is used only to respond to your enquiry.</span>
         </p>
       </div>
+      {!SITE.formEndpoint && SITE.whatsapp && (
+        <p className={styles.waHint}>
+          <FaWhatsapp aria-hidden="true" /> This opens WhatsApp with your enquiry ready. Just tap Send.
+        </p>
+      )}
     </form>
     </div>
   );

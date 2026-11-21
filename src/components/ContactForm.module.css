@@ -54,8 +54,13 @@
 .error a { text-decoration: underline; }
 
 .result { display: grid; gap: 14px; justify-items: start; }
-.result svg { font-size: 40px; color: #1C1C1C; background: var(--lime); border-radius: 50%; }
+.result > svg:first-child { font-size: 40px; color: #1C1C1C; background: var(--lime); border-radius: 50%; }
 .result h3 { font-size: 20px; }
 .result p { margin: 0; color: var(--muted); max-width: 46ch; line-height: 1.6; }
 
 @media (max-width: 640px) { .two { grid-template-columns: 1fr; } .vr { display: none; } .actions { gap: 14px; } }
+
+.waHint { margin: -4px 0 0; display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--muted); }
+.waHint svg { flex: none; font-size: 17px; color: #1C1C1C; }
+.waNote { font-size: 13.5px !important; }
+.waNote b { color: var(--ink); }

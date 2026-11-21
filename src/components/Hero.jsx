@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Scramble, SplitText } from './fx';
-import { ArrowUpRight, ArrowDown, Browser, ShoppingBag, GearSix, DeviceMobile, Lightning } from '@phosphor-icons/react';
+import { ArrowUpRight, ArrowDown, Pause, Play, Browser, ShoppingBag, GearSix, DeviceMobile, Lightning } from '@phosphor-icons/react';
 import styles from './Hero.module.css';
 
 const LETTERS = ['A', 'D', 'V', 'I', 'O'];
@@ -37,6 +37,10 @@ export default function Hero() {
 
   const wmRef = useRef(null);
   const ringRef = useRef(null);
+  const pausedRef = useRef(false);
+  const [paused, setPaused] = useState(false);
+  const [canMove] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  useEffect(() => { pausedRef.current = paused; }, [paused]);
 
   // Orbit: cards travel round an ellipse; lower half passes in front of ADVIO, upper half behind it
   useEffect(() => {
@@ -48,18 +52,27 @@ export default function Hero() {
     let raf = 0;
     let angle = -Math.PI / 2 + 0.35;
     let speed = still ? 0 : 0.16; // radians per second
-    let target = speed;
     let last = performance.now();
     const t0 = last;
-    const onEnter = () => { target = 0; };
-    const onLeave = () => { target = still ? 0 : 0.16; };
+    let hover = false;
+    let focus = false;
+    let onScreen = true;
+    const RUN = still ? 0 : 0.16;
+    const onEnter = () => { hover = true; };
+    const onLeave = () => { hover = false; };
+    const onFocusIn = () => { focus = true; };
+    const onFocusOut = () => { focus = false; };
     ring.addEventListener('mouseover', onEnter);
     ring.addEventListener('mouseout', onLeave);
+    ring.addEventListener('focusin', onFocusIn);
+    ring.addEventListener('focusout', onFocusOut);
 
     const frame = (now) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
+      const target = hover || focus || pausedRef.current ? 0 : RUN;
       speed += (target - speed) * Math.min(1, dt * 4);
+      if (target === 0 && Math.abs(speed) < 0.002) speed = 0; // come to a complete stop
       angle += speed * dt;
 
       const W = ring.offsetWidth;
@@ -84,13 +97,28 @@ export default function Hero() {
         c.style.zIndex = d > 0 ? 8 : 1;
         c.style.pointerEvents = intro > 0.6 ? 'auto' : 'none';
       });
-      raf = requestAnimationFrame(frame);
+      raf = onScreen ? requestAnimationFrame(frame) : 0;
     };
+    const start = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } };
     raf = requestAnimationFrame(frame);
+
+    // The landing is pinned (sticky) while the next page slides over it, so it never leaves the
+    // viewport; stop animating once it is fully covered, and resume when it is uncovered.
+    const onScroll = () => {
+      const visible = window.scrollY < window.innerHeight;
+      if (visible === onScreen) return;
+      onScreen = visible;
+      if (visible) start();
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
       ring.removeEventListener('mouseover', onEnter);
       ring.removeEventListener('mouseout', onLeave);
+      ring.removeEventListener('focusin', onFocusIn);
+      ring.removeEventListener('focusout', onFocusOut);
     };
   }, []);
 
@@ -147,6 +175,19 @@ export default function Hero() {
             </span>
           </div>
         </div>
+
+        {canMove && (
+          <button
+            type="button"
+            className={styles.motionBtn}
+            onClick={() => setPaused((p) => !p)}
+            aria-pressed={paused}
+            aria-label={paused ? 'Play animation' : 'Pause animation'}
+          >
+            {paused ? <Play weight="fill" aria-hidden="true" /> : <Pause weight="fill" aria-hidden="true" />}
+            <span>{paused ? 'Play animation' : 'Pause animation'}</span>
+          </button>
+        )}
 
         <button
           type="button"

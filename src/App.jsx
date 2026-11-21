@@ -9,19 +9,14 @@ import About from './pages/About';
 import ServicesPage from './pages/ServicesPage';
 import WorkPage from './pages/WorkPage';
 import ContactPage from './pages/ContactPage';
-
-const TITLES = {
-  '/': 'ADVIO — Websites, Software & Automation for Growing Businesses',
-  '/about': 'About — ADVIO',
-  '/services': 'Services — ADVIO',
-  '/work': 'Work — ADVIO',
-  '/contact': 'Contact — ADVIO',
-};
+import { TITLES } from './routeMeta';
 
 function RouteEffects() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
-    document.title = TITLES[pathname] || 'Page not found — ADVIO';
+    // trailing slash (GitHub Pages serves /about/ for the about page file)
+    const path = pathname.replace(/\/+$/, '') || '/';
+    document.title = TITLES[path] || 'Page not found — ADVIO';
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));
       const t = setTimeout(() => document.getElementById(id)?.scrollIntoView(), 60);
@@ -46,8 +41,9 @@ export default function App() {
   return (
     <>
       <RouteEffects />
+      <a className="skip" href="#main">Skip to content</a>
       <Navbar />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

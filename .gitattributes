@@ -1,0 +1,6 @@
+# Keep line endings stable across Windows and the GitHub Pages build
+* text=auto eol=lf
+*.webp binary
+*.jpg binary
+*.png binary
+*.woff2 binary

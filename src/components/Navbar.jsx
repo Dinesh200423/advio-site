@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { ArrowUpRight } from '@phosphor-icons/react';
 import { Scramble } from './fx';
@@ -15,6 +15,7 @@ const LINKS = [
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const burgerRef = useRef(null);
   const { pathname } = useLocation();
   const isHome = pathname === '/';
   // Over the Home landing the bar is transparent; everywhere else it is solid.
@@ -28,6 +29,16 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => { setMenuOpen(false); }, [pathname]);
+
+  // Escape closes the mobile menu and hands focus back to the menu button
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') { setMenuOpen(false); burgerRef.current?.focus(); }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [menuOpen]);
 
   const linkClass = ({ isActive }) => (isActive ? styles.active : undefined);
 
@@ -55,6 +66,7 @@ export default function Navbar() {
         </div>
 
         <button
+          ref={burgerRef}
           className={`${styles.hamburger} ${!solid ? styles.hamburgerWhite : ''}`}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
